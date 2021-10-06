@@ -14,25 +14,12 @@ export class TennisGame2 implements TennisGame {
 
     if (
       (this.Player1Points > 0 && this.Player2Points === 0) ||
-      (this.Player2Points > 0 && this.Player1Points === 0)
+      (this.Player2Points > 0 && this.Player1Points === 0) ||
+      (this.Player1Points > this.Player2Points && this.Player1Points < 4) ||
+      (this.Player2Points > this.Player1Points && this.Player2Points < 4)
     ) {
       this.Player1Result = parseScore(this.Player1Points);
       this.Player2Result = parseScore(this.Player2Points);
-      score = this.Player1Result + "-" + this.Player2Result;
-    }
-
-    if (this.Player1Points > this.Player2Points && this.Player1Points < 4) {
-      if (this.Player1Points === 2) this.Player1Result = "Thirty";
-      if (this.Player1Points === 3) this.Player1Result = "Forty";
-      if (this.Player2Points === 1) this.Player2Result = "Fifteen";
-      if (this.Player2Points === 2) this.Player2Result = "Thirty";
-      score = this.Player1Result + "-" + this.Player2Result;
-    }
-    if (this.Player2Points > this.Player1Points && this.Player2Points < 4) {
-      if (this.Player2Points === 2) this.Player2Result = "Thirty";
-      if (this.Player2Points === 3) this.Player2Result = "Forty";
-      if (this.Player1Points === 1) this.Player1Result = "Fifteen";
-      if (this.Player1Points === 2) this.Player1Result = "Thirty";
       score = this.Player1Result + "-" + this.Player2Result;
     }
 
