@@ -11,11 +11,8 @@ export class TennisGame1 implements TennisGame {
 
   getScore(): string {
     let result: string = "";
-    // IF DRAW
     if (this.player1Score === this.player2Score) {
       result = parseScoreWhenDraw(this.player1Score);
-      // IF ONE player >= 4
-      // CHECK FOR WIN
     } else if (this.player1Score >= 4 || this.player2Score >= 4) {
       result = checkForWin(this.player1Score, this.player2Score);
     } else {
