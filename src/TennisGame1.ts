@@ -29,22 +29,16 @@ export class TennisGame1 implements TennisGame {
 }
 
 function parseScoreWhenDraw(score) {
-  let result = "";
   switch (score) {
     case 0:
-      result = "Love-All";
-      break;
+      return "Love-All";
     case 1:
-      result = "Fifteen-All";
-      break;
+      return "Fifteen-All";
     case 2:
-      result = "Thirty-All";
-      break;
+      return "Thirty-All";
     default:
-      result = "Deuce";
-      break;
+      return "Deuce";
   }
-  return result;
 }
 
 function checkForWin(player1Score, player2Score) {
