@@ -18,7 +18,6 @@ export class TennisGame1 implements TennisGame {
 
   getScore(): string {
     let scoreTerm: string = "";
-    let scoreNumber: number = 0;
     // IF DRAW
     if (this.player1Score === this.player2Score) {
       scoreTerm = parseScoreWhenDraw(this.player1Score);
