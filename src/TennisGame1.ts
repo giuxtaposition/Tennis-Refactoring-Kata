@@ -19,10 +19,9 @@ export class TennisGame1 implements TennisGame {
     } else if (this.player1Score >= 4 || this.player2Score >= 4) {
       result = checkForWin(this.player1Score, this.player2Score);
     } else {
-      // ELSE KEEP PLAYING
-      result += playTurn(this.player1Score);
+      result += parseScore(this.player1Score);
       result += "-";
-      result += playTurn(this.player2Score);
+      result += parseScore(this.player2Score);
     }
     return result;
   }
@@ -60,8 +59,4 @@ function parseScore(score) {
     case 3:
       return "Forty";
   }
-}
-
-function playTurn(playerScore) {
-  return parseScore(playerScore);
 }
