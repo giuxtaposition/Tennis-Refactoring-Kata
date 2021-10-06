@@ -10,12 +10,14 @@ export class TennisGame2 implements TennisGame {
   getScore(): string {
     let score: string = "";
     if (this.Player1Points === this.Player2Points && this.Player1Points < 4) {
+      // IN CASE OF DRAW
       if (this.Player1Points === 0) score = "Love";
       if (this.Player1Points === 1) score = "Fifteen";
       if (this.Player1Points === 2) score = "Thirty";
       score += "-All";
     }
     if (this.Player1Points === this.Player2Points && this.Player1Points >= 3)
+      // IN CASE OF DEUCE
       score = "Deuce";
 
     if (this.Player1Points > 0 && this.Player2Points === 0) {
@@ -77,26 +79,26 @@ export class TennisGame2 implements TennisGame {
 
   SetP1Score(score: number): void {
     for (let i = 0; i < score; i++) {
-      this.P1Score();
+      this.Player1Scores();
     }
   }
 
   SetP2Score(score: number): void {
     for (let i = 0; i < score; i++) {
-      this.P2Score();
+      this.Player2Scores();
     }
   }
 
-  P1Score(): void {
+  Player1Scores(): void {
     this.Player1Points++;
   }
 
-  P2Score(): void {
+  Player2Scores(): void {
     this.Player2Points++;
   }
 
   wonPoint(player: string): void {
-    if (player === "player1") this.P1Score();
-    else this.P2Score();
+    if (player === "player1") this.Player1Scores();
+    else this.Player2Scores();
   }
 }
