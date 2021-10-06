@@ -17,21 +17,21 @@ export class TennisGame1 implements TennisGame {
   }
 
   getScore(): string {
-    let scoreTerm: string = "";
+    let result: string = "";
     // IF DRAW
     if (this.player1Score === this.player2Score) {
-      scoreTerm = parseScoreWhenDraw(this.player1Score);
+      result = parseScoreWhenDraw(this.player1Score);
       // IF ONE player >= 4
       // CHECK FOR WIN
     } else if (this.player1Score >= 4 || this.player2Score >= 4) {
-      scoreTerm = checkForWin(this.player1Score, this.player2Score);
+      result = checkForWin(this.player1Score, this.player2Score);
     } else {
       // ELSE KEEP PLAYING
-      scoreTerm += playTurn(this.player1Score);
-      scoreTerm += "-";
-      scoreTerm += playTurn(this.player2Score);
+      result += playTurn(this.player1Score);
+      result += "-";
+      result += playTurn(this.player2Score);
     }
-    return scoreTerm;
+    return result;
   }
 }
 
