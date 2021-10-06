@@ -18,7 +18,7 @@ export class TennisGame1 implements TennisGame {
 
   getScore(): string {
     let scoreTerm: string = "";
-    let tempScore: number = 0;
+    let scoreNumber: number = 0;
     if (this.player1Score === this.player2Score) {
       switch (this.player1Score) {
         case 0:
@@ -42,12 +42,12 @@ export class TennisGame1 implements TennisGame {
       else scoreTerm = "Win for player2";
     } else {
       for (let i = 1; i < 3; i++) {
-        if (i === 1) tempScore = this.player1Score;
+        if (i === 1) scoreNumber = this.player1Score;
         else {
           scoreTerm += "-";
-          tempScore = this.player2Score;
+          scoreNumber = this.player2Score;
         }
-        switch (tempScore) {
+        switch (scoreNumber) {
           case 0:
             scoreTerm += "Love";
             break;
