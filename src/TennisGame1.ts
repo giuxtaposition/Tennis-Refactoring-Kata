@@ -19,15 +19,15 @@ export class TennisGame1 implements TennisGame {
   getScore(): string {
     let scoreTerm: string = "";
     let scoreNumber: number = 0;
+    // IF DRAW
     if (this.player1Score === this.player2Score) {
       scoreTerm = parseScoreWhenDraw(this.player1Score);
+      // IF ONE player >= 4
+      // CHECK FOR WIN
     } else if (this.player1Score >= 4 || this.player2Score >= 4) {
-      const minusResult: number = this.player1Score - this.player2Score;
-      if (minusResult === 1) scoreTerm = "Advantage player1";
-      else if (minusResult === -1) scoreTerm = "Advantage player2";
-      else if (minusResult >= 2) scoreTerm = "Win for player1";
-      else scoreTerm = "Win for player2";
+      scoreTerm = checkForWin(this.player1Score, this.player2Score);
     } else {
+      // ELSE KEEP PLAYING
       for (let i = 1; i < 3; i++) {
         if (i === 1) scoreNumber = this.player1Score;
         else {
@@ -71,4 +71,12 @@ function parseScoreWhenDraw(score) {
       break;
   }
   return result;
+}
+
+function checkForWin(player1Score, player2Score) {
+  const minusResult: number = player1Score - player2Score;
+  if (minusResult === 1) return "Advantage player1";
+  else if (minusResult === -1) return "Advantage player2";
+  else if (minusResult >= 2) return "Win for player1";
+  else return "Win for player2";
 }
