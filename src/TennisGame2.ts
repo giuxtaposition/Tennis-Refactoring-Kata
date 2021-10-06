@@ -7,14 +7,6 @@ export class TennisGame2 implements TennisGame {
   Player1Result: string = "";
   Player2Result: string = "";
 
-  private player1Name: string;
-  private player2Name: string;
-
-  constructor(player1Name: string, player2Name: string) {
-    this.player1Name = player1Name;
-    this.player2Name = player2Name;
-  }
-
   getScore(): string {
     let score: string = "";
     if (this.Player1Points === this.Player2Points && this.Player1Points < 4) {
