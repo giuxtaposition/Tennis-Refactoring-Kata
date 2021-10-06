@@ -17,52 +17,52 @@ export class TennisGame1 implements TennisGame {
   }
 
   getScore(): string {
-    let score: string = "";
+    let scoreTerm: string = "";
     let tempScore: number = 0;
     if (this.player1Score === this.player2Score) {
       switch (this.player1Score) {
         case 0:
-          score = "Love-All";
+          scoreTerm = "Love-All";
           break;
         case 1:
-          score = "Fifteen-All";
+          scoreTerm = "Fifteen-All";
           break;
         case 2:
-          score = "Thirty-All";
+          scoreTerm = "Thirty-All";
           break;
         default:
-          score = "Deuce";
+          scoreTerm = "Deuce";
           break;
       }
     } else if (this.player1Score >= 4 || this.player2Score >= 4) {
       const minusResult: number = this.player1Score - this.player2Score;
-      if (minusResult === 1) score = "Advantage player1";
-      else if (minusResult === -1) score = "Advantage player2";
-      else if (minusResult >= 2) score = "Win for player1";
-      else score = "Win for player2";
+      if (minusResult === 1) scoreTerm = "Advantage player1";
+      else if (minusResult === -1) scoreTerm = "Advantage player2";
+      else if (minusResult >= 2) scoreTerm = "Win for player1";
+      else scoreTerm = "Win for player2";
     } else {
       for (let i = 1; i < 3; i++) {
         if (i === 1) tempScore = this.player1Score;
         else {
-          score += "-";
+          scoreTerm += "-";
           tempScore = this.player2Score;
         }
         switch (tempScore) {
           case 0:
-            score += "Love";
+            scoreTerm += "Love";
             break;
           case 1:
-            score += "Fifteen";
+            scoreTerm += "Fifteen";
             break;
           case 2:
-            score += "Thirty";
+            scoreTerm += "Thirty";
             break;
           case 3:
-            score += "Forty";
+            scoreTerm += "Forty";
             break;
         }
       }
     }
-    return score;
+    return scoreTerm;
   }
 }
