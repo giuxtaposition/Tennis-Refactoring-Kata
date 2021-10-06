@@ -10,22 +10,14 @@ export class TennisGame2 implements TennisGame {
   getScore(): string {
     let score: string = "";
 
-    score += checkForDraw(this.Player1Points, this.Player2Points);
+    score = checkForDraw(this.Player1Points, this.Player2Points);
 
-    if (this.Player1Points > 0 && this.Player2Points === 0) {
-      if (this.Player1Points === 1) this.Player1Result = "Fifteen";
-      if (this.Player1Points === 2) this.Player1Result = "Thirty";
-      if (this.Player1Points === 3) this.Player1Result = "Forty";
-
-      this.Player2Result = "Love";
-      score = this.Player1Result + "-" + this.Player2Result;
-    }
-    if (this.Player2Points > 0 && this.Player1Points === 0) {
-      if (this.Player2Points === 1) this.Player2Result = "Fifteen";
-      if (this.Player2Points === 2) this.Player2Result = "Thirty";
-      if (this.Player2Points === 3) this.Player2Result = "Forty";
-
-      this.Player1Result = "Love";
+    if (
+      (this.Player1Points > 0 && this.Player2Points === 0) ||
+      (this.Player2Points > 0 && this.Player1Points === 0)
+    ) {
+      this.Player1Result = parseScore(this.Player1Points);
+      this.Player2Result = parseScore(this.Player2Points);
       score = this.Player1Result + "-" + this.Player2Result;
     }
 
@@ -90,4 +82,11 @@ function checkForDraw(Player1Points, Player2Points) {
     if (Player1Points === 2) return "Thirty-All";
     if (Player1Points >= 3) return "Deuce";
   }
+}
+
+function parseScore(score) {
+  if (score === 0) return "Love";
+  if (score === 1) return "Fifteen";
+  if (score === 2) return "Thirty";
+  if (score === 3) return "Forty";
 }
