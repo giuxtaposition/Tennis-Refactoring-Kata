@@ -34,20 +34,7 @@ export class TennisGame1 implements TennisGame {
           scoreTerm += "-";
           scoreNumber = this.player2Score;
         }
-        switch (scoreNumber) {
-          case 0:
-            scoreTerm += "Love";
-            break;
-          case 1:
-            scoreTerm += "Fifteen";
-            break;
-          case 2:
-            scoreTerm += "Thirty";
-            break;
-          case 3:
-            scoreTerm += "Forty";
-            break;
-        }
+        scoreTerm += parseScore(scoreNumber);
       }
     }
     return scoreTerm;
@@ -79,4 +66,17 @@ function checkForWin(player1Score, player2Score) {
   else if (minusResult === -1) return "Advantage player2";
   else if (minusResult >= 2) return "Win for player1";
   else return "Win for player2";
+}
+
+function parseScore(score) {
+  switch (score) {
+    case 0:
+      return "Love";
+    case 1:
+      return "Fifteen";
+    case 2:
+      return "Thirty";
+    case 3:
+      return "Forty";
+  }
 }
