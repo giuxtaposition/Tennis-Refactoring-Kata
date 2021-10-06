@@ -28,14 +28,9 @@ export class TennisGame1 implements TennisGame {
       scoreTerm = checkForWin(this.player1Score, this.player2Score);
     } else {
       // ELSE KEEP PLAYING
-      for (let i = 1; i < 3; i++) {
-        if (i === 1) scoreNumber = this.player1Score;
-        else {
-          scoreTerm += "-";
-          scoreNumber = this.player2Score;
-        }
-        scoreTerm += parseScore(scoreNumber);
-      }
+      scoreTerm += playTurn(this.player1Score);
+      scoreTerm += "-";
+      scoreTerm += playTurn(this.player2Score);
     }
     return scoreTerm;
   }
@@ -79,4 +74,8 @@ function parseScore(score) {
     case 3:
       return "Forty";
   }
+}
+
+function playTurn(playerScore) {
+  return parseScore(playerScore);
 }
