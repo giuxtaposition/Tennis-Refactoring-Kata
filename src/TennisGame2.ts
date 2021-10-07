@@ -72,8 +72,16 @@ function checkForDraw(Player1Points, Player2Points) {
 }
 
 function parseScore(score) {
-  if (score === 0) return "Love";
-  if (score === 1) return "Fifteen";
-  if (score === 2) return "Thirty";
-  if (score === 3) return "Forty";
+  switch (score) {
+    case 0:
+      return "Love";
+    case 1:
+      return "Fifteen";
+    case 2:
+      return "Thirty";
+    case 3:
+      return "Forty";
+    default:
+      break;
+  }
 }
