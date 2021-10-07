@@ -11,16 +11,9 @@ export class TennisGame2 implements TennisGame {
     let score: string = "";
 
     score += checkForDraw(this.Player1Points, this.Player2Points);
-
-    if (
-      (this.Player1Points > this.Player2Points && this.Player1Points < 4) ||
-      (this.Player2Points > this.Player1Points && this.Player2Points < 4)
-    ) {
-      this.Player1Result = parseScore(this.Player1Points);
-      this.Player2Result = parseScore(this.Player2Points);
-      score = this.Player1Result + "-" + this.Player2Result;
-    }
     score += checkForWin(this.Player1Points, this.Player2Points);
+    score += checkScore(this.Player1Points, this.Player2Points);
+
     return score;
   }
 
@@ -97,6 +90,17 @@ function checkForWin(Player1Points, Player2Points) {
     return "Advantage player1";
   } else if (Player2Points > Player1Points && Player1Points >= 3) {
     return "Advantage player2";
+  } else {
+    return "";
+  }
+}
+
+function checkScore(Player1Points, Player2Points) {
+  if (
+    (Player1Points > Player2Points && Player1Points < 4) ||
+    (Player2Points > Player1Points && Player2Points < 4)
+  ) {
+    return parseScore(Player1Points) + "-" + parseScore(Player2Points);
   } else {
     return "";
   }
