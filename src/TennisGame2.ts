@@ -10,7 +10,7 @@ export class TennisGame2 implements TennisGame {
   getScore(): string {
     let score: string = "";
 
-    score = checkForDraw(this.Player1Points, this.Player2Points);
+    score += checkForDraw(this.Player1Points, this.Player2Points);
 
     if (
       (this.Player1Points > 0 && this.Player2Points === 0) ||
@@ -23,13 +23,7 @@ export class TennisGame2 implements TennisGame {
       score = this.Player1Result + "-" + this.Player2Result;
     }
 
-    if (this.Player1Points > this.Player2Points && this.Player2Points >= 3) {
-      score = "Advantage player1";
-    }
-
-    if (this.Player2Points > this.Player1Points && this.Player1Points >= 3) {
-      score = "Advantage player2";
-    }
+    score += checkForAdvantage(this.Player1Points, this.Player2Points);
 
     if (
       this.Player1Points >= 4 &&
@@ -74,6 +68,8 @@ function checkForDraw(Player1Points, Player2Points) {
       default:
         return "Deuce";
     }
+  } else {
+    return "";
   }
 }
 
@@ -89,5 +85,15 @@ function parseScore(score) {
       return "Forty";
     default:
       break;
+  }
+}
+
+function checkForAdvantage(Player1Points, Player2Points) {
+  if (Player1Points > Player2Points && Player2Points >= 3) {
+    return "Advantage player1";
+  } else if (Player2Points > Player1Points && Player1Points >= 3) {
+    return "Advantage player2";
+  } else {
+    return "";
   }
 }
