@@ -12,28 +12,28 @@ export class TennisGame3 implements TennisGame {
   }
 
   getScore(): string {
-    let s: string;
+    let result: string;
     if (
       this.Player1Points < 4 &&
       this.Player2Points < 4 &&
       !(this.Player1Points + this.Player2Points === 6)
     ) {
       const p: string[] = ["Love", "Fifteen", "Thirty", "Forty"];
-      s = p[this.Player1Points];
+      result = p[this.Player1Points];
       return this.Player1Points === this.Player2Points
-        ? s + "-All"
-        : s + "-" + p[this.Player2Points];
+        ? result + "-All"
+        : result + "-" + p[this.Player2Points];
     } else {
       if (this.Player1Points === this.Player2Points) return "Deuce";
-      s =
+      result =
         this.Player1Points > this.Player2Points
           ? this.Player1Result
           : this.Player2Result;
       return (this.Player1Points - this.Player2Points) *
         (this.Player1Points - this.Player2Points) ===
         1
-        ? "Advantage " + s
-        : "Win for " + s;
+        ? "Advantage " + result
+        : "Win for " + result;
     }
   }
 
