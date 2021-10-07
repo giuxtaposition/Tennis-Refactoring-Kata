@@ -18,11 +18,11 @@ export class TennisGame3 implements TennisGame {
       this.Player2Points < 4 &&
       !(this.Player1Points + this.Player2Points === 6)
     ) {
-      const p: string[] = ["Love", "Fifteen", "Thirty", "Forty"];
-      result = p[this.Player1Points];
+      const scoreString: string[] = ["Love", "Fifteen", "Thirty", "Forty"];
+      result = scoreString[this.Player1Points];
       return this.Player1Points === this.Player2Points
         ? result + "-All"
-        : result + "-" + p[this.Player2Points];
+        : result + "-" + scoreString[this.Player2Points];
     } else {
       if (this.Player1Points === this.Player2Points) return "Deuce";
       result =
