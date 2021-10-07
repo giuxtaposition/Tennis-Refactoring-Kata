@@ -20,23 +20,7 @@ export class TennisGame2 implements TennisGame {
       this.Player2Result = parseScore(this.Player2Points);
       score = this.Player1Result + "-" + this.Player2Result;
     }
-
-    score += checkForAdvantage(this.Player1Points, this.Player2Points);
-
-    if (
-      this.Player1Points >= 4 &&
-      this.Player2Points >= 0 &&
-      this.Player1Points - this.Player2Points >= 2
-    ) {
-      score = "Win for player1";
-    }
-    if (
-      this.Player2Points >= 4 &&
-      this.Player1Points >= 0 &&
-      this.Player2Points - this.Player1Points >= 2
-    ) {
-      score = "Win for player2";
-    }
+    score += checkForWin(this.Player1Points, this.Player2Points);
     return score;
   }
 
@@ -88,6 +72,28 @@ function parseScore(score) {
 
 function checkForAdvantage(Player1Points, Player2Points) {
   if (Player1Points > Player2Points && Player2Points >= 3) {
+    return "Advantage player1";
+  } else if (Player2Points > Player1Points && Player1Points >= 3) {
+    return "Advantage player2";
+  } else {
+    return "";
+  }
+}
+
+function checkForWin(Player1Points, Player2Points) {
+  if (
+    Player1Points >= 4 &&
+    Player2Points >= 0 &&
+    Player1Points - Player2Points >= 2
+  ) {
+    return "Win for player1";
+  } else if (
+    Player2Points >= 4 &&
+    Player1Points >= 0 &&
+    Player2Points - Player1Points >= 2
+  ) {
+    return "Win for player2";
+  } else if (Player1Points > Player2Points && Player2Points >= 3) {
     return "Advantage player1";
   } else if (Player2Points > Player1Points && Player1Points >= 3) {
     return "Advantage player2";
