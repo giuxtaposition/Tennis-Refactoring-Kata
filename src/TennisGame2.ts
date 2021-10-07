@@ -13,8 +13,6 @@ export class TennisGame2 implements TennisGame {
     score += checkForDraw(this.Player1Points, this.Player2Points);
 
     if (
-      (this.Player1Points > 0 && this.Player2Points === 0) ||
-      (this.Player2Points > 0 && this.Player1Points === 0) ||
       (this.Player1Points > this.Player2Points && this.Player1Points < 4) ||
       (this.Player2Points > this.Player1Points && this.Player2Points < 4)
     ) {
