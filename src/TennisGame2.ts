@@ -64,10 +64,16 @@ export class TennisGame2 implements TennisGame {
 
 function checkForDraw(Player1Points, Player2Points) {
   if (Player1Points === Player2Points) {
-    if (Player1Points === 0) return "Love-All";
-    if (Player1Points === 1) return "Fifteen-All";
-    if (Player1Points === 2) return "Thirty-All";
-    if (Player1Points >= 3) return "Deuce";
+    switch (Player1Points) {
+      case 0:
+        return "Love-All";
+      case 1:
+        return "Fifteen-All";
+      case 2:
+        return "Thirty-All";
+      default:
+        return "Deuce";
+    }
   }
 }
 
