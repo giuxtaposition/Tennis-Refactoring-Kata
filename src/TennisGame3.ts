@@ -12,11 +12,7 @@ export class TennisGame3 implements TennisGame {
   }
 
   getScore(): string {
-    if (
-      this.Player1Points < 4 &&
-      this.Player2Points < 4 &&
-      !(this.Player1Points + this.Player2Points === 6)
-    ) {
+    if (this.isMidGame()) {
       return getGameScore(this.Player1Points, this.Player2Points);
     } else {
       if (this.Player1Points === this.Player2Points) return "Deuce";
@@ -32,6 +28,14 @@ export class TennisGame3 implements TennisGame {
   wonPoint(playerName: string): void {
     if (playerName === "player1") this.Player1Points += 1;
     else this.Player2Points += 1;
+  }
+
+  isMidGame() {
+    return (
+      this.Player1Points < 4 &&
+      this.Player2Points < 4 &&
+      !(this.Player1Points + this.Player2Points === 6)
+    );
   }
 }
 
