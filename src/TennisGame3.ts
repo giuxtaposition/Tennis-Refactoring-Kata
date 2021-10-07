@@ -12,7 +12,6 @@ export class TennisGame3 implements TennisGame {
   }
 
   getScore(): string {
-    let result: string;
     if (
       this.Player1Points < 4 &&
       this.Player2Points < 4 &&
