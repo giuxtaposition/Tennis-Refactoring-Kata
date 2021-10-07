@@ -4,9 +4,6 @@ export class TennisGame2 implements TennisGame {
   Player1Points: number = 0;
   Player2Points: number = 0;
 
-  Player1Result: string = "";
-  Player2Result: string = "";
-
   getScore(): string {
     let score: string = "";
 
@@ -60,16 +57,6 @@ function parseScore(score) {
       return "Forty";
     default:
       break;
-  }
-}
-
-function checkForAdvantage(Player1Points, Player2Points) {
-  if (Player1Points > Player2Points && Player2Points >= 3) {
-    return "Advantage player1";
-  } else if (Player2Points > Player1Points && Player1Points >= 3) {
-    return "Advantage player2";
-  } else {
-    return "";
   }
 }
 
