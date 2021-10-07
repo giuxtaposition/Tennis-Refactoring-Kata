@@ -3,12 +3,12 @@ import { TennisGame } from "./TennisGame";
 export class TennisGame3 implements TennisGame {
   private Player2Points: number = 0;
   private Player1Points: number = 0;
-  private Player1Result: string;
-  private Player2Result: string;
+  private Player1Name: string;
+  private Player2Name: string;
 
-  constructor(Player1Result: string, Player2Result: string) {
-    this.Player1Result = Player1Result;
-    this.Player2Result = Player2Result;
+  constructor(Player1Name: string, Player2Name: string) {
+    this.Player1Name = Player1Name;
+    this.Player2Name = Player2Name;
   }
 
   getScore(): string {
@@ -27,8 +27,8 @@ export class TennisGame3 implements TennisGame {
       if (this.Player1Points === this.Player2Points) return "Deuce";
       result =
         this.Player1Points > this.Player2Points
-          ? this.Player1Result
-          : this.Player2Result;
+          ? this.Player1Name
+          : this.Player2Name;
       return (this.Player1Points - this.Player2Points) *
         (this.Player1Points - this.Player2Points) ===
         1

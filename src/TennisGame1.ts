@@ -3,6 +3,13 @@ import { TennisGame } from "./TennisGame";
 export class TennisGame1 implements TennisGame {
   private player1Score: number = 0;
   private player2Score: number = 0;
+  private Player1Name: string;
+  private Player2Name: string;
+
+  constructor(Player1Name: string, Player2Name: string) {
+    this.Player1Name = Player1Name;
+    this.Player2Name = Player2Name;
+  }
 
   wonPoint(playerName: string): void {
     if (playerName === "player1") this.player1Score += 1;
