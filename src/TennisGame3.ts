@@ -21,15 +21,12 @@ export class TennisGame3 implements TennisGame {
       return checkScore(this.Player1Points, this.Player2Points);
     } else {
       if (this.Player1Points === this.Player2Points) return "Deuce";
-      result =
-        this.Player1Points > this.Player2Points
-          ? this.Player1Name
-          : this.Player2Name;
-      return (this.Player1Points - this.Player2Points) *
-        (this.Player1Points - this.Player2Points) ===
-        1
-        ? "Advantage " + result
-        : "Win for " + result;
+      return checkWinOrAdvantage(
+        this.Player1Points,
+        this.Player2Points,
+        this.Player1Name,
+        this.Player2Name
+      );
     }
   }
 
@@ -44,4 +41,16 @@ function checkScore(Player1Points, Player2Points) {
   return Player1Points === Player2Points
     ? scoreString[Player1Points] + "-All"
     : scoreString[Player1Points] + "-" + scoreString[Player2Points];
+}
+
+function checkWinOrAdvantage(
+  Player1Points,
+  Player2Points,
+  Player1Name,
+  Player2Name
+) {
+  let playerName = Player1Points > Player2Points ? Player1Name : Player2Name;
+  return (Player1Points - Player2Points) * (Player1Points - Player2Points) === 1
+    ? "Advantage " + playerName
+    : "Win for " + playerName;
 }
