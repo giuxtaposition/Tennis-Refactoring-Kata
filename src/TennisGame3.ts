@@ -15,7 +15,9 @@ export class TennisGame3 implements TennisGame {
     if (this.isMidGame()) {
       return this.getGameScore();
     }
-    if (this.Player1Points === this.Player2Points) return "Deuce";
+    if (this.isDeuce()) {
+      return "Deuce";
+    }
 
     if (this.isWinnerRound()) {
       return "Win for " + this.playerWithHighestScore();
@@ -45,11 +47,15 @@ export class TennisGame3 implements TennisGame {
       : scoreString[this.Player1Points] + "-" + scoreString[this.Player2Points];
   }
 
-  isDraw() {
+  isDraw(): boolean {
     return this.Player1Points === this.Player2Points;
   }
 
-  isAdvantageRound() {
+  isDeuce(): boolean {
+    return this.isDraw() && this.Player1Points >= 3;
+  }
+
+  isAdvantageRound(): boolean {
     return (
       (this.Player1Points >= 4 &&
         this.Player1Points === this.Player2Points + 1) ||
@@ -57,8 +63,7 @@ export class TennisGame3 implements TennisGame {
     );
   }
 
-  isWinnerRound() {
-    console.log();
+  isWinnerRound(): boolean {
     return (
       (this.Player1Points >= 4 &&
         this.Player1Points >= this.Player2Points + 2) ||
