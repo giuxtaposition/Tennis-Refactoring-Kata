@@ -35,9 +35,13 @@ export class TennisGame3 implements TennisGame {
 
   getGameScore() {
     const scoreString: string[] = ["Love", "Fifteen", "Thirty", "Forty"];
-    return this.Player1Points === this.Player2Points
+    return this.isDraw()
       ? scoreString[this.Player1Points] + "-All"
       : scoreString[this.Player1Points] + "-" + scoreString[this.Player2Points];
+  }
+
+  isDraw() {
+    return this.Player1Points === this.Player2Points;
   }
 
   getWinningScore() {

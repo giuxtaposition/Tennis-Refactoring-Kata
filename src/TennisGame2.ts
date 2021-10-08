@@ -1,8 +1,8 @@
 import { TennisGame } from "./TennisGame";
 
 export class TennisGame2 implements TennisGame {
-  Player1Points: number = 0;
-  Player2Points: number = 0;
+  private Player1Points: number = 0;
+  private Player2Points: number = 0;
   private Player1Name: string;
   private Player2Name: string;
 
