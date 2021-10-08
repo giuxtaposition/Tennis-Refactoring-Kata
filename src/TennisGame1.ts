@@ -17,19 +17,24 @@ export class TennisGame1 implements TennisGame {
 
   getScore(): string {
     if (this.player1Score === this.player2Score) {
-      return this.parseScoreWhenDraw();
-    } else if (this.player1Score >= 4 || this.player2Score >= 4) {
-      return this.checkForWin();
-    } else {
-      return (
-        this.parseScore(this.player1Score) +
-        "-" +
-        this.parseScore(this.player2Score)
-      );
+      return this.drawResult();
     }
+    if (this.player1Score >= 4 || this.player2Score >= 4) {
+      return this.winOrAdvantageResult();
+    }
+
+    return this.ongoingResult();
   }
 
-  parseScore(score) {
+  ongoingResult() {
+    return (
+      this.ongoingResultTerms(this.player1Score) +
+      "-" +
+      this.ongoingResultTerms(this.player2Score)
+    );
+  }
+
+  ongoingResultTerms(score) {
     switch (score) {
       case 0:
         return "Love";
@@ -42,7 +47,7 @@ export class TennisGame1 implements TennisGame {
     }
   }
 
-  parseScoreWhenDraw() {
+  drawResult() {
     switch (this.player1Score) {
       case 0:
         return "Love-All";
@@ -55,7 +60,7 @@ export class TennisGame1 implements TennisGame {
     }
   }
 
-  checkForWin() {
+  winOrAdvantageResult() {
     const minusResult: number = this.player1Score - this.player2Score;
     if (minusResult === 1) return "Advantage player1";
     else if (minusResult === -1) return "Advantage player2";
