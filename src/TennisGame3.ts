@@ -13,19 +13,15 @@ export class TennisGame3 implements TennisGame {
   }
 
   getScore(): string {
-    if (this.isDeuce()) {
-      return "Deuce";
-    }
-
     if (this.isWinnerRound()) {
-      return "Win for " + this.playerWithHighestScore();
+      return this.winResult();
     }
     if (this.isAdvantageRound()) {
-      return "Advantage " + this.playerWithHighestScore();
+      return this.advantageResult();
     }
 
     if (this.isDraw()) {
-      return this.scoreString[this.Player1Points] + "-All";
+      return this.drawResult();
     }
 
     return this.ongoingGameResult();
@@ -36,7 +32,21 @@ export class TennisGame3 implements TennisGame {
     else this.Player2Points += 1;
   }
 
-  ongoingGameResult() {
+  winResult(): string {
+    return "Win for " + this.playerWithHighestScore();
+  }
+
+  drawResult(): string {
+    return this.isDeuce()
+      ? "Deuce"
+      : this.scoreString[this.Player1Points] + "-All";
+  }
+
+  advantageResult(): string {
+    return "Advantage " + this.playerWithHighestScore();
+  }
+
+  ongoingGameResult(): string {
     return (
       this.scoreString[this.Player1Points] +
       "-" +
@@ -68,7 +78,7 @@ export class TennisGame3 implements TennisGame {
     );
   }
 
-  playerWithHighestScore() {
+  playerWithHighestScore(): string {
     return this.Player1Points > this.Player2Points
       ? this.Player1Name
       : this.Player2Name;
