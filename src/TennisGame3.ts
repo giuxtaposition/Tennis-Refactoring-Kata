@@ -5,6 +5,7 @@ export class TennisGame3 implements TennisGame {
   private Player1Points: number = 0;
   private Player1Name: string;
   private Player2Name: string;
+  private scoreString: string[] = ["Love", "Fifteen", "Thirty", "Forty"];
 
   constructor(Player1Name: string, Player2Name: string) {
     this.Player1Name = Player1Name;
@@ -12,9 +13,6 @@ export class TennisGame3 implements TennisGame {
   }
 
   getScore(): string {
-    if (this.isMidGame()) {
-      return this.getGameScore();
-    }
     if (this.isDeuce()) {
       return "Deuce";
     }
@@ -25,6 +23,12 @@ export class TennisGame3 implements TennisGame {
     if (this.isAdvantageRound()) {
       return "Advantage " + this.playerWithHighestScore();
     }
+
+    if (this.isDraw()) {
+      return this.scoreString[this.Player1Points] + "-All";
+    }
+
+    return this.ongoingGameResult();
   }
 
   wonPoint(playerName: string): void {
@@ -32,19 +36,12 @@ export class TennisGame3 implements TennisGame {
     else this.Player2Points += 1;
   }
 
-  isMidGame() {
+  ongoingGameResult() {
     return (
-      this.Player1Points < 4 &&
-      this.Player2Points < 4 &&
-      !(this.Player1Points + this.Player2Points === 6)
+      this.scoreString[this.Player1Points] +
+      "-" +
+      this.scoreString[this.Player2Points]
     );
-  }
-
-  getGameScore() {
-    const scoreString: string[] = ["Love", "Fifteen", "Thirty", "Forty"];
-    return this.isDraw()
-      ? scoreString[this.Player1Points] + "-All"
-      : scoreString[this.Player1Points] + "-" + scoreString[this.Player2Points];
   }
 
   isDraw(): boolean {
