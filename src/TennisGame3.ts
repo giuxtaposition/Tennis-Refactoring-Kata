@@ -44,14 +44,20 @@ export class TennisGame3 implements TennisGame {
     return this.Player1Points === this.Player2Points;
   }
 
+  isAdvantageRound() {
+    return (
+      (this.Player1Points >= 4 &&
+        this.Player1Points == this.Player2Points + 1) ||
+      (this.Player2Points >= 4 && this.Player2Points == this.Player1Points + 1)
+    );
+  }
+
   getWinningScore() {
     let playerName =
       this.Player1Points > this.Player2Points
         ? this.Player1Name
         : this.Player2Name;
-    return (this.Player1Points - this.Player2Points) *
-      (this.Player1Points - this.Player2Points) ===
-      1
+    return this.isAdvantageRound()
       ? "Advantage " + playerName
       : "Win for " + playerName;
   }
