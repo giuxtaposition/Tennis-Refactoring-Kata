@@ -12,53 +12,54 @@ export class TennisGame1 implements TennisGame {
   }
 
   wonPoint(playerName: string): void {
-    if (playerName === "player1") this.player1Score += 1;
-    else this.player2Score += 1;
+    playerName === "player1" ? this.player1Score++ : this.player2Score++;
   }
 
   getScore(): string {
     if (this.player1Score === this.player2Score) {
-      return parseScoreWhenDraw(this.player1Score);
+      return this.parseScoreWhenDraw();
     } else if (this.player1Score >= 4 || this.player2Score >= 4) {
-      return checkForWin(this.player1Score, this.player2Score);
+      return this.checkForWin();
     } else {
       return (
-        parseScore(this.player1Score) + "-" + parseScore(this.player2Score)
+        this.parseScore(this.player1Score) +
+        "-" +
+        this.parseScore(this.player2Score)
       );
     }
   }
-}
 
-function parseScoreWhenDraw(score) {
-  switch (score) {
-    case 0:
-      return "Love-All";
-    case 1:
-      return "Fifteen-All";
-    case 2:
-      return "Thirty-All";
-    default:
-      return "Deuce";
+  parseScore(score) {
+    switch (score) {
+      case 0:
+        return "Love";
+      case 1:
+        return "Fifteen";
+      case 2:
+        return "Thirty";
+      case 3:
+        return "Forty";
+    }
   }
-}
 
-function checkForWin(player1Score, player2Score) {
-  const minusResult: number = player1Score - player2Score;
-  if (minusResult === 1) return "Advantage player1";
-  else if (minusResult === -1) return "Advantage player2";
-  else if (minusResult >= 2) return "Win for player1";
-  else return "Win for player2";
-}
+  parseScoreWhenDraw() {
+    switch (this.player1Score) {
+      case 0:
+        return "Love-All";
+      case 1:
+        return "Fifteen-All";
+      case 2:
+        return "Thirty-All";
+      default:
+        return "Deuce";
+    }
+  }
 
-function parseScore(score) {
-  switch (score) {
-    case 0:
-      return "Love";
-    case 1:
-      return "Fifteen";
-    case 2:
-      return "Thirty";
-    case 3:
-      return "Forty";
+  checkForWin() {
+    const minusResult: number = this.player1Score - this.player2Score;
+    if (minusResult === 1) return "Advantage player1";
+    else if (minusResult === -1) return "Advantage player2";
+    else if (minusResult >= 2) return "Win for player1";
+    else return "Win for player2";
   }
 }
