@@ -1,26 +1,14 @@
-Tennis Refactoring Kata
-=======================
+# Tennis Refactoring Kata
+This is my solution to [Tennis Refactoring Kata](https://github.com/emilybache/Tennis-Refactoring-Kata).
 
-Usage
------
+The objective was to refactor the code base provided, tests were already included.
 
-### npm test
+**Language**: Typescript
 
-Run the tests under the `tests` folder that match the `*.test.ts` extension
-
-
-### npm run test:watch
-
-Run the tests while watching for changes
-
-
-
-VS Code
--------
-
-If you're using [Visual Studio Code](https://code.visualstudio.com/) you can
-run the tests pressing `Ctrl+F5`.
-
-
-This will only work if opened folder in the editor is
-`Tennis-Refactoring-Kata/typescript`
+## Installing and running tests
+``` bash
+git clone git@github.com:giuxtaposition/Tennis-Refactoring-Kata.git
+cd Tennis-Refactoring-Kata
+yarn install
+yarn test
+```
