@@ -52,13 +52,14 @@ export class TennisGame3 implements TennisGame {
     );
   }
 
+  playerWithHighestScore() {
+    return this.Player1Points > this.Player2Points
+      ? this.Player1Name
+      : this.Player2Name;
+  }
   getWinningScore() {
-    let playerName =
-      this.Player1Points > this.Player2Points
-        ? this.Player1Name
-        : this.Player2Name;
     return this.isAdvantageRound()
-      ? "Advantage " + playerName
-      : "Win for " + playerName;
+      ? "Advantage " + this.playerWithHighestScore()
+      : "Win for " + this.playerWithHighestScore();
   }
 }
