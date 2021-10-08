@@ -14,9 +14,14 @@ export class TennisGame3 implements TennisGame {
   getScore(): string {
     if (this.isMidGame()) {
       return this.getGameScore();
-    } else {
-      if (this.Player1Points === this.Player2Points) return "Deuce";
-      return this.getWinningScore();
+    }
+    if (this.Player1Points === this.Player2Points) return "Deuce";
+
+    if (this.isWinnerRound()) {
+      return "Win for " + this.playerWithHighestScore();
+    }
+    if (this.isAdvantageRound()) {
+      return "Advantage " + this.playerWithHighestScore();
     }
   }
 
@@ -47,8 +52,17 @@ export class TennisGame3 implements TennisGame {
   isAdvantageRound() {
     return (
       (this.Player1Points >= 4 &&
-        this.Player1Points == this.Player2Points + 1) ||
-      (this.Player2Points >= 4 && this.Player2Points == this.Player1Points + 1)
+        this.Player1Points === this.Player2Points + 1) ||
+      (this.Player2Points >= 4 && this.Player2Points === this.Player1Points + 1)
+    );
+  }
+
+  isWinnerRound() {
+    console.log();
+    return (
+      (this.Player1Points >= 4 &&
+        this.Player1Points >= this.Player2Points + 2) ||
+      (this.Player2Points >= 4 && this.Player2Points >= this.Player1Points + 2)
     );
   }
 
@@ -56,10 +70,5 @@ export class TennisGame3 implements TennisGame {
     return this.Player1Points > this.Player2Points
       ? this.Player1Name
       : this.Player2Name;
-  }
-  getWinningScore() {
-    return this.isAdvantageRound()
-      ? "Advantage " + this.playerWithHighestScore()
-      : "Win for " + this.playerWithHighestScore();
   }
 }
