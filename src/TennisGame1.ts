@@ -1,14 +1,12 @@
 import { TennisGame } from "./TennisGame";
 
 export class TennisGame1 implements TennisGame {
-  private player1Score: number = 0;
-  private player2Score: number = 0;
-  private Player1Name: string;
-  private Player2Name: string;
+  private Player1: Player;
+  private Player2: Player;
 
   constructor(Player1Name: string, Player2Name: string) {
-    this.Player1Name = Player1Name;
-    this.Player2Name = Player2Name;
+    this.Player1 = new Player(Player1Name);
+    this.Player2 = new Player(Player2Name);
   }
 
   getScore(): string {
@@ -27,28 +25,20 @@ export class TennisGame1 implements TennisGame {
 
   wonPoint(playerName: string): void {
     this.isPlayer1(playerName)
-      ? this.incrementScorePlayer1()
-      : this.incrementScorePlayer2();
+      ? this.Player1.incrementScore()
+      : this.Player2.incrementScore();
   }
 
   isPlayer1(playerName) {
     return playerName === "player1";
   }
 
-  incrementScorePlayer2() {
-    this.player2Score++;
-  }
-
-  incrementScorePlayer1() {
-    this.player1Score++;
-  }
-
   isDraw() {
-    return this.player1Score === this.player2Score;
+    return this.Player1.score === this.Player2.score;
   }
 
   drawResult() {
-    switch (this.player1Score) {
+    switch (this.Player1.score) {
       case 0:
         return "Love-All";
       case 1:
@@ -75,11 +65,11 @@ export class TennisGame1 implements TennisGame {
   }
 
   hasPlayerReachedFourPoints() {
-    return this.player1Score >= 4 || this.player2Score >= 4;
+    return this.Player1.score >= 4 || this.Player2.score >= 4;
   }
 
   getScoreDifference() {
-    return this.player1Score - this.player2Score;
+    return this.Player1.score - this.Player2.score;
   }
 
   advantageResult() {
@@ -90,14 +80,14 @@ export class TennisGame1 implements TennisGame {
   }
 
   playerWithHighestScore() {
-    return this.player1Score > this.player2Score ? "player1" : "player2";
+    return this.Player1.score > this.Player2.score ? "player1" : "player2";
   }
 
   ongoingResult() {
     return (
-      this.ongoingResultTerms(this.player1Score) +
+      this.ongoingResultTerms(this.Player1.score) +
       "-" +
-      this.ongoingResultTerms(this.player2Score)
+      this.ongoingResultTerms(this.Player2.score)
     );
   }
 
@@ -112,5 +102,26 @@ export class TennisGame1 implements TennisGame {
       case 3:
         return "Forty";
     }
+  }
+}
+
+class Player {
+  private _score: number = 0;
+  private _name: string;
+
+  constructor(name) {
+    this._name = name;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  get score() {
+    return this._score;
+  }
+
+  incrementScore() {
+    this._score++;
   }
 }
