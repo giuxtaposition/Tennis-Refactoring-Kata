@@ -24,13 +24,11 @@ export class TennisGame1 implements TennisGame {
     }
 
     wonPoint(playerName: string): void {
-        this.isFirstPlayer(playerName)
-            ? this.firstPlayer.incrementScore()
-            : this.secondPlayer.incrementScore()
+        this.getPlayerBy(playerName).incrementScore()
     }
 
-    isFirstPlayer(playerName) {
-        return playerName === 'player1'
+    getPlayerBy(playerName) {
+        return playerName === 'player1' ? this.firstPlayer : this.secondPlayer
     }
 
     isDraw() {
