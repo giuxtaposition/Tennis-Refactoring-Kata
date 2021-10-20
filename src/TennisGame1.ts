@@ -8,7 +8,12 @@ export class TennisGame1 implements TennisGame {
     constructor(firstPlayerName: string, secondPlayerName: string) {
         this.firstPlayer = new Player(firstPlayerName)
         this.secondPlayer = new Player(secondPlayerName)
-        this.scoreBoard = new ScoreBoard(this.firstPlayer, this.secondPlayer)
+        this.scoreBoard = new ScoreBoard([
+            new DrawScoreRule(this.firstPlayer, this.secondPlayer),
+            new AdvantageScoreRule(this.firstPlayer, this.secondPlayer),
+            new WinScoreRule(this.firstPlayer, this.secondPlayer),
+            new OngoingScoreRule(this.firstPlayer, this.secondPlayer),
+        ])
     }
 
     public getScore(): string {
@@ -86,19 +91,10 @@ class Player {
 }
 
 class ScoreBoard {
-    private firstPlayer: Player
-    private secondPlayer: Player
     private scoreRules: ScoreRule[]
 
-    constructor(firstPlayer: Player, secondPlayer: Player) {
-        this.firstPlayer = firstPlayer
-        this.secondPlayer = secondPlayer
-        this.scoreRules = [
-            new DrawScoreRule(this.firstPlayer, this.secondPlayer),
-            new AdvantageScoreRule(this.firstPlayer, this.secondPlayer),
-            new WinScoreRule(this.firstPlayer, this.secondPlayer),
-            new OngoingScoreRule(this.firstPlayer, this.secondPlayer),
-        ]
+    constructor(scoreRules: ScoreRule[]) {
+        this.scoreRules = scoreRules
     }
 
     public getScore() {
