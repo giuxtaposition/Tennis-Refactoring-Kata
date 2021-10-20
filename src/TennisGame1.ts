@@ -53,16 +53,25 @@ export class TennisGame1 implements TennisGame {
     isAdvantage() {
         return (
             this.hasPlayerReachedFourPoints() &&
-            (this.getScoreDifference() === 1 ||
-                this.getScoreDifference() === -1)
+            this.isOnePointScoreDifference()
+        )
+    }
+
+    private isOnePointScoreDifference() {
+        return (
+            this.getScoreDifference() === 1 || this.getScoreDifference() === -1
         )
     }
 
     isWin() {
         return (
             this.hasPlayerReachedFourPoints() &&
-            (this.getScoreDifference() >= 2 || this.getScoreDifference() <= -2)
+            this.isTwoPointsScoreDifference()
         )
+    }
+
+    private isTwoPointsScoreDifference() {
+        return this.getScoreDifference() >= 2 || this.getScoreDifference() <= -2
     }
 
     hasPlayerReachedFourPoints() {
