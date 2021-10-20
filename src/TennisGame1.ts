@@ -28,7 +28,9 @@ export class TennisGame1 implements TennisGame {
     }
 
     getPlayerBy(playerName) {
-        return playerName === 'player1' ? this.firstPlayer : this.secondPlayer
+        return this.firstPlayer.name === playerName
+            ? this.firstPlayer
+            : this.secondPlayer
     }
 
     isDraw() {
@@ -80,8 +82,8 @@ export class TennisGame1 implements TennisGame {
 
     playerWithHighestScore() {
         return this.firstPlayer.score > this.secondPlayer.score
-            ? 'player1'
-            : 'player2'
+            ? this.firstPlayer.name
+            : this.secondPlayer.name
     }
 
     ongoingResult() {
