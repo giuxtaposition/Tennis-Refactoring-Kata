@@ -15,11 +15,11 @@ export class TennisGame1 implements TennisGame {
         this.secondPlayer = new Player(secondPlayerName)
     }
 
-    getScore(): string {
+    public getScore(): string {
         if (this.isDraw()) {
             return this.drawResult()
         }
-        if (this.isAdvantage()) {
+        if (this.isAPlayerInAdvantage()) {
             return this.advantageResult()
         }
         if (this.isWin()) {
@@ -29,21 +29,28 @@ export class TennisGame1 implements TennisGame {
         return this.ongoingResult()
     }
 
-    wonPoint(playerName: string): void {
+    private isDraw() {
+        return this.firstPlayer.isDrawWith(this.secondPlayer)
+    }
+
+    private isAPlayerInAdvantage() {
+        return (
+            this.firstPlayer.isInAdvantageOver(this.secondPlayer) ||
+            this.secondPlayer.isInAdvantageOver(this.firstPlayer)
+        )
+    }
+
+    public wonPoint(playerName: string): void {
         this.getPlayerBy(playerName).incrementScore()
     }
 
-    getPlayerBy(playerName) {
-        return this.firstPlayer.name === playerName
+    private getPlayerBy(playerName) {
+        return this.firstPlayer.isCalled(playerName)
             ? this.firstPlayer
             : this.secondPlayer
     }
 
-    isDraw() {
-        return this.firstPlayer.score === this.secondPlayer.score
-    }
-
-    drawResult() {
+    private drawResult() {
         switch (this.firstPlayer.score) {
             case 0:
                 return 'Love-All'
@@ -56,52 +63,27 @@ export class TennisGame1 implements TennisGame {
         }
     }
 
-    isAdvantage() {
+    private isWin() {
         return (
-            this.hasPlayerReachedFourPoints() &&
-            this.isOnePointScoreDifference()
+            this.firstPlayer.hasWonOver(this.secondPlayer) ||
+            this.secondPlayer.hasWonOver(this.firstPlayer)
         )
     }
 
-    private isOnePointScoreDifference() {
-        return (
-            this.getScoreDifference() === 1 || this.getScoreDifference() === -1
-        )
-    }
-
-    isWin() {
-        return (
-            this.hasPlayerReachedFourPoints() &&
-            this.isTwoPointsScoreDifference()
-        )
-    }
-
-    private isTwoPointsScoreDifference() {
-        return this.getScoreDifference() >= 2 || this.getScoreDifference() <= -2
-    }
-
-    hasPlayerReachedFourPoints() {
-        return this.firstPlayer.score >= 4 || this.secondPlayer.score >= 4
-    }
-
-    getScoreDifference() {
-        return this.firstPlayer.score - this.secondPlayer.score
-    }
-
-    advantageResult() {
+    private advantageResult() {
         return 'Advantage ' + this.playerWithHighestScore()
     }
-    winResult() {
+    private winResult() {
         return 'Win for ' + this.playerWithHighestScore()
     }
 
-    playerWithHighestScore() {
-        return this.firstPlayer.score > this.secondPlayer.score
+    private playerWithHighestScore() {
+        return this.firstPlayer.hasHigherScoreThan(this.secondPlayer)
             ? this.firstPlayer.name
             : this.secondPlayer.name
     }
 
-    ongoingResult() {
+    private ongoingResult() {
         return (
             this.getPointsDescription(this.firstPlayer.score) +
             '-' +
@@ -109,7 +91,7 @@ export class TennisGame1 implements TennisGame {
         )
     }
 
-    getPointsDescription(score) {
+    private getPointsDescription(score) {
         return this.pointsDescriptions.get(score)
     }
 }
@@ -122,15 +104,53 @@ class Player {
         this._name = name
     }
 
+    public hasHigherScoreThan(opponentPlayer: Player) {
+        return this._score > opponentPlayer.score
+    }
+
+    public hasWonOver(opponentPlayer: Player) {
+        return (
+            this.hasReachedFourPoints() &&
+            this.hasAtLeastTwoPointsAdvantage(opponentPlayer)
+        )
+    }
+
+    private hasAtLeastTwoPointsAdvantage(opponentPlayer: Player) {
+        return this._score - opponentPlayer.score >= 2
+    }
+
+    public isInAdvantageOver(opponentPlayer: Player) {
+        return (
+            this.hasReachedFourPoints() &&
+            this.hasOnePointAdvantageOver(opponentPlayer)
+        )
+    }
+
+    private hasOnePointAdvantageOver(opponentPlayer: Player) {
+        return this._score - opponentPlayer.score === 1
+    }
+
+    public isDrawWith(opponentPlayer: Player) {
+        return this._score === opponentPlayer.score
+    }
+
+    public isCalled(playerName) {
+        return this._name === playerName
+    }
+
+    public hasReachedFourPoints() {
+        return this._score >= 4
+    }
+
+    public incrementScore() {
+        this._score++
+    }
+
     get name() {
         return this._name
     }
 
     get score() {
         return this._score
-    }
-
-    incrementScore() {
-        this._score++
     }
 }
