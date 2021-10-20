@@ -115,15 +115,17 @@ interface ScoreRule {
     getResult(): string
 }
 
-class DrawScoreRule implements ScoreRule {
-    private firstPlayer: Player
-    private secondPlayer: Player
+abstract class BaseScoreRule {
+    protected firstPlayer: Player
+    protected secondPlayer: Player
 
-    constructor(firstPlayer, secondPlayer) {
+    constructor(firstPlayer: Player, secondPlayer: Player) {
         this.firstPlayer = firstPlayer
         this.secondPlayer = secondPlayer
     }
+}
 
+class DrawScoreRule extends BaseScoreRule implements ScoreRule {
     public isValid() {
         return this.firstPlayer.isDrawWith(this.secondPlayer)
     }
@@ -142,15 +144,7 @@ class DrawScoreRule implements ScoreRule {
     }
 }
 
-class AdvantageScoreRule implements ScoreRule {
-    private firstPlayer: Player
-    private secondPlayer: Player
-
-    constructor(firstPlayer, secondPlayer) {
-        this.firstPlayer = firstPlayer
-        this.secondPlayer = secondPlayer
-    }
-
+class AdvantageScoreRule extends BaseScoreRule implements ScoreRule {
     public isValid() {
         return (
             this.firstPlayer.isInAdvantageOver(this.secondPlayer) ||
@@ -169,15 +163,7 @@ class AdvantageScoreRule implements ScoreRule {
     }
 }
 
-class WinScoreRule implements ScoreRule {
-    private firstPlayer: Player
-    private secondPlayer: Player
-
-    constructor(firstPlayer, secondPlayer) {
-        this.firstPlayer = firstPlayer
-        this.secondPlayer = secondPlayer
-    }
-
+class WinScoreRule extends BaseScoreRule implements ScoreRule {
     public isValid() {
         return (
             this.firstPlayer.hasWonOver(this.secondPlayer) ||
@@ -196,20 +182,13 @@ class WinScoreRule implements ScoreRule {
     }
 }
 
-class OngoingScoreRule implements ScoreRule {
-    private firstPlayer: Player
-    private secondPlayer: Player
+class OngoingScoreRule extends BaseScoreRule implements ScoreRule {
     private pointsDescriptions = new Map<number, string>([
         [0, 'Love'],
         [1, 'Fifteen'],
         [2, 'Thirty'],
         [3, 'Forty'],
     ])
-
-    constructor(firstPlayer, secondPlayer) {
-        this.firstPlayer = firstPlayer
-        this.secondPlayer = secondPlayer
-    }
 
     public isValid() {
         return true
