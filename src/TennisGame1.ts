@@ -3,41 +3,16 @@ import { TennisGame } from './TennisGame'
 export class TennisGame1 implements TennisGame {
     private firstPlayer: Player
     private secondPlayer: Player
-    private pointsDescriptions = new Map<number, string>([
-        [0, 'Love'],
-        [1, 'Fifteen'],
-        [2, 'Thirty'],
-        [3, 'Forty'],
-    ])
+    private scoreBoard: ScoreBoard
 
     constructor(firstPlayerName: string, secondPlayerName: string) {
         this.firstPlayer = new Player(firstPlayerName)
         this.secondPlayer = new Player(secondPlayerName)
+        this.scoreBoard = new ScoreBoard(this.firstPlayer, this.secondPlayer)
     }
 
     public getScore(): string {
-        if (this.isDraw()) {
-            return this.drawResult()
-        }
-        if (this.isAPlayerInAdvantage()) {
-            return this.advantageResult()
-        }
-        if (this.isWin()) {
-            return this.winResult()
-        }
-
-        return this.ongoingResult()
-    }
-
-    private isDraw() {
-        return this.firstPlayer.isDrawWith(this.secondPlayer)
-    }
-
-    private isAPlayerInAdvantage() {
-        return (
-            this.firstPlayer.isInAdvantageOver(this.secondPlayer) ||
-            this.secondPlayer.isInAdvantageOver(this.firstPlayer)
-        )
+        return this.scoreBoard.getScore()
     }
 
     public wonPoint(playerName: string): void {
@@ -48,51 +23,6 @@ export class TennisGame1 implements TennisGame {
         return this.firstPlayer.isCalled(playerName)
             ? this.firstPlayer
             : this.secondPlayer
-    }
-
-    private drawResult() {
-        switch (this.firstPlayer.score) {
-            case 0:
-                return 'Love-All'
-            case 1:
-                return 'Fifteen-All'
-            case 2:
-                return 'Thirty-All'
-            default:
-                return 'Deuce'
-        }
-    }
-
-    private isWin() {
-        return (
-            this.firstPlayer.hasWonOver(this.secondPlayer) ||
-            this.secondPlayer.hasWonOver(this.firstPlayer)
-        )
-    }
-
-    private advantageResult() {
-        return 'Advantage ' + this.playerWithHighestScore()
-    }
-    private winResult() {
-        return 'Win for ' + this.playerWithHighestScore()
-    }
-
-    private playerWithHighestScore() {
-        return this.firstPlayer.hasHigherScoreThan(this.secondPlayer)
-            ? this.firstPlayer.name
-            : this.secondPlayer.name
-    }
-
-    private ongoingResult() {
-        return (
-            this.getPointsDescription(this.firstPlayer.score) +
-            '-' +
-            this.getPointsDescription(this.secondPlayer.score)
-        )
-    }
-
-    private getPointsDescription(score) {
-        return this.pointsDescriptions.get(score)
     }
 }
 
@@ -152,5 +82,148 @@ class Player {
 
     get score() {
         return this._score
+    }
+}
+
+class ScoreBoard {
+    private firstPlayer: Player
+    private secondPlayer: Player
+    private scoreRules: ScoreRule[]
+
+    constructor(firstPlayer: Player, secondPlayer: Player) {
+        this.firstPlayer = firstPlayer
+        this.secondPlayer = secondPlayer
+        this.scoreRules = [
+            new DrawScoreRule(this.firstPlayer, this.secondPlayer),
+            new AdvantageScoreRule(this.firstPlayer, this.secondPlayer),
+            new WinScoreRule(this.firstPlayer, this.secondPlayer),
+            new OngoingScoreRule(this.firstPlayer, this.secondPlayer),
+        ]
+    }
+
+    public getScore() {
+        for (let rule of this.scoreRules) {
+            if (rule.isValid()) {
+                return rule.getResult()
+            }
+        }
+    }
+}
+
+interface ScoreRule {
+    isValid(): boolean
+    getResult(): string
+}
+
+class DrawScoreRule implements ScoreRule {
+    private firstPlayer: Player
+    private secondPlayer: Player
+
+    constructor(firstPlayer, secondPlayer) {
+        this.firstPlayer = firstPlayer
+        this.secondPlayer = secondPlayer
+    }
+
+    public isValid() {
+        return this.firstPlayer.isDrawWith(this.secondPlayer)
+    }
+
+    public getResult() {
+        switch (this.firstPlayer.score) {
+            case 0:
+                return 'Love-All'
+            case 1:
+                return 'Fifteen-All'
+            case 2:
+                return 'Thirty-All'
+            default:
+                return 'Deuce'
+        }
+    }
+}
+
+class AdvantageScoreRule implements ScoreRule {
+    private firstPlayer: Player
+    private secondPlayer: Player
+
+    constructor(firstPlayer, secondPlayer) {
+        this.firstPlayer = firstPlayer
+        this.secondPlayer = secondPlayer
+    }
+
+    public isValid() {
+        return (
+            this.firstPlayer.isInAdvantageOver(this.secondPlayer) ||
+            this.secondPlayer.isInAdvantageOver(this.firstPlayer)
+        )
+    }
+
+    public getResult() {
+        return 'Advantage ' + this.playerWithHighestScore()
+    }
+
+    private playerWithHighestScore() {
+        return this.firstPlayer.hasHigherScoreThan(this.secondPlayer)
+            ? this.firstPlayer.name
+            : this.secondPlayer.name
+    }
+}
+
+class WinScoreRule implements ScoreRule {
+    private firstPlayer: Player
+    private secondPlayer: Player
+
+    constructor(firstPlayer, secondPlayer) {
+        this.firstPlayer = firstPlayer
+        this.secondPlayer = secondPlayer
+    }
+
+    public isValid() {
+        return (
+            this.firstPlayer.hasWonOver(this.secondPlayer) ||
+            this.secondPlayer.hasWonOver(this.firstPlayer)
+        )
+    }
+
+    public getResult() {
+        return 'Win for ' + this.playerWithHighestScore()
+    }
+
+    private playerWithHighestScore() {
+        return this.firstPlayer.hasHigherScoreThan(this.secondPlayer)
+            ? this.firstPlayer.name
+            : this.secondPlayer.name
+    }
+}
+
+class OngoingScoreRule implements ScoreRule {
+    private firstPlayer: Player
+    private secondPlayer: Player
+    private pointsDescriptions = new Map<number, string>([
+        [0, 'Love'],
+        [1, 'Fifteen'],
+        [2, 'Thirty'],
+        [3, 'Forty'],
+    ])
+
+    constructor(firstPlayer, secondPlayer) {
+        this.firstPlayer = firstPlayer
+        this.secondPlayer = secondPlayer
+    }
+
+    public isValid() {
+        return true
+    }
+
+    public getResult() {
+        return (
+            this.getPointsDescription(this.firstPlayer.score) +
+            '-' +
+            this.getPointsDescription(this.secondPlayer.score)
+        )
+    }
+
+    private getPointsDescription(score) {
+        return this.pointsDescriptions.get(score)
     }
 }
