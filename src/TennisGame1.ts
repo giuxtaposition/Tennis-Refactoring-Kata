@@ -3,6 +3,12 @@ import { TennisGame } from './TennisGame'
 export class TennisGame1 implements TennisGame {
     private firstPlayer: Player
     private secondPlayer: Player
+    private pointsDescriptions = new Map<number, string>([
+        [0, 'Love'],
+        [1, 'Fifteen'],
+        [2, 'Thirty'],
+        [3, 'Forty'],
+    ])
 
     constructor(firstPlayerName: string, secondPlayerName: string) {
         this.firstPlayer = new Player(firstPlayerName)
@@ -97,23 +103,14 @@ export class TennisGame1 implements TennisGame {
 
     ongoingResult() {
         return (
-            this.ongoingResultTerms(this.firstPlayer.score) +
+            this.getPointsDescription(this.firstPlayer.score) +
             '-' +
-            this.ongoingResultTerms(this.secondPlayer.score)
+            this.getPointsDescription(this.secondPlayer.score)
         )
     }
 
-    ongoingResultTerms(score) {
-        switch (score) {
-            case 0:
-                return 'Love'
-            case 1:
-                return 'Fifteen'
-            case 2:
-                return 'Thirty'
-            case 3:
-                return 'Forty'
-        }
+    getPointsDescription(score) {
+        return this.pointsDescriptions.get(score)
     }
 }
 
